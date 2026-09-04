@@ -4,6 +4,7 @@
   "private": true,
   "author": "JEBARSN THATCROOS, LARSANAN, SOVIKA, SATHUSKA FARWAIS",
   "scripts": {
+    "div": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",

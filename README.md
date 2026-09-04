@@ -60,6 +60,13 @@ src/
 - Shared data models live under `src/models`.
 - The generated Next.js agent guidance lives in `AGENTS.md` and should be preserved.
 
+### Rendering
+
+Page routes use static generation through the root and authentication layouts. The
+authentication and other API routes remain server-backed because they require
+sessions, database access, and request-time mutations. Run this project with the
+Next.js server rather than as a static HTML export.
+
 ## Development Guidance
 
 - Prefer the App Router patterns that come with Next.js.
