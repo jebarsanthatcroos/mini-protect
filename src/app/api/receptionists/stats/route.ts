@@ -23,7 +23,7 @@ export async function GET(_request: NextRequest) {
       .lean();
 
     const byDepartment: Record<string, number> = receptionists.reduce(
-      (acc, r: any) => {
+      (acc: { [x: string]: any; }, r: any) => {
         if (r.department) acc[r.department] = (acc[r.department] || 0) + 1;
         return acc;
       },
@@ -32,7 +32,7 @@ export async function GET(_request: NextRequest) {
 
     const averagePerformance =
       receptionists.reduce(
-        (sum, r: any) =>
+        (sum: any, r: any) =>
           sum +
           (typeof r.getPerformanceRating === 'function'
             ? r.getPerformanceRating()
@@ -42,25 +42,25 @@ export async function GET(_request: NextRequest) {
 
     const stats = {
       total: receptionists.length,
-      active: receptionists.filter(r => r.employmentStatus === 'ACTIVE').length,
-      onLeave: receptionists.filter(r => r.employmentStatus === 'ON_LEAVE')
+      active: receptionists.filter((r: { employmentStatus: string; }) => r.employmentStatus === 'ACTIVE').length,
+      onLeave: receptionists.filter((r: { employmentStatus: string; }) => r.employmentStatus === 'ON_LEAVE')
         .length,
-      suspended: receptionists.filter(r => r.employmentStatus === 'SUSPENDED')
+      suspended: receptionists.filter((r: { employmentStatus: string; }) => r.employmentStatus === 'SUSPENDED')
         .length,
-      terminated: receptionists.filter(r => r.employmentStatus === 'TERMINATED')
+      terminated: receptionists.filter((r: { employmentStatus: string; }) => r.employmentStatus === 'TERMINATED')
         .length,
-      available: receptionists.filter(r => r.isAvailable).length,
-      unavailable: receptionists.filter(r => !r.isAvailable).length,
+      available: receptionists.filter((r: { isAvailable: any; }) => r.isAvailable).length,
+      unavailable: receptionists.filter((r: { isAvailable: any; }) => !r.isAvailable).length,
       byShift: {
-        MORNING: receptionists.filter(r => r.shift === 'MORNING').length,
-        EVENING: receptionists.filter(r => r.shift === 'EVENING').length,
-        NIGHT: receptionists.filter(r => r.shift === 'NIGHT').length,
-        FULL_DAY: receptionists.filter(r => r.shift === 'FULL_DAY').length,
+        MORNING: receptionists.filter((r: { shift: string; }) => r.shift === 'MORNING').length,
+        EVENING: receptionists.filter((r: { shift: string; }) => r.shift === 'EVENING').length,
+        NIGHT: receptionists.filter((r: { shift: string; }) => r.shift === 'NIGHT').length,
+        FULL_DAY: receptionists.filter((r: { shift: string; }) => r.shift === 'FULL_DAY').length,
       },
       byDepartment,
       averagePerformance,
       totalAppointmentsToday: receptionists.reduce(
-        (sum, r) => sum + (r.currentAppointmentsCount || 0),
+        (sum: any, r: { currentAppointmentsCount: any; }) => sum + (r.currentAppointmentsCount || 0),
         0
       ),
     };
