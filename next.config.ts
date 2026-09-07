@@ -26,6 +26,7 @@ const nextConfig = {
 
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'http://localhost:3000',
   },
 
   compiler: {
