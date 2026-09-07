@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+  attestations: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -37,6 +39,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Start CI metrics
+        run: echo "CI_START_TIME=$(date +%s)" >> "$GITHUB_ENV"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -54,3 +59,40 @@ jobs:
 
       - name: Run tests
         run: npm test -- --runInBand
+
+      - name: Build application
+        run: npm run build
+
+      - name: Package build artifact
+        run: tar -czf next-build.tar.gz .next package.json package-lock.json
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: next-build.tar.gz
+
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: next-build.tar.gz
+
+      - name: Publish Actions usage metrics
+        if: always()
+        run: |
+          end_time=$(date +%s)
+          elapsed_seconds=$((end_time - CI_START_TIME))
+          {
+            echo '## Actions Usage Metrics'
+            echo ''
+            echo '| Metric | Value |'
+            echo '| --- | --- |'
+            echo "| Workflow | ${{ github.workflow }} |"
+            echo "| Run | [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |"
+            echo "| Event | ${{ github.event_name }} |"
+            echo "| Ref | ${{ github.ref_name }} |"
+            echo "| Runner | ${{ runner.os }} / ${{ runner.arch }} |"
+            echo "| Duration | ${elapsed_seconds}s |"
+            echo "| Result | ${{ job.status }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
