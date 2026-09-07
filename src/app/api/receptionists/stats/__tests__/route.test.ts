@@ -119,7 +119,9 @@ describe('GET /api/receptionists/stats', () => {
 
   it('should handle database errors gracefully', async () => {
     // Mock console.error to suppress logs
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
 
     // Mock authenticated session
     (getServerSession as jest.Mock).mockResolvedValue({

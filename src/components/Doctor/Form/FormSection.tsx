@@ -31,29 +31,17 @@ interface FormSectionProps {
   onDayToggle: (day: string) => void;
   onArrayFieldChange: (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications',
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications',
     index: number,
     value: string
   ) => void;
   onAddArrayField: (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications'
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications'
   ) => void;
   onRemoveArrayField: (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications',
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications',
     index: number
   ) => void;
   onUserIdChange: (userId: string) => void;

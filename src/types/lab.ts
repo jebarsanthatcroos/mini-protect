@@ -205,10 +205,7 @@ export interface LabSample {
 }
 
 export type SampleStatus =
-  | 'COLLECTED'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'CANCELLED';
+  'COLLECTED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export type SamplePriority = 'LOW' | 'NORMAL' | 'HIGH' | 'STAT';
 

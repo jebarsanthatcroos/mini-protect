@@ -20,7 +20,6 @@ const Input: React.FC<InputProps> = ({
   const [internalValue, setInternalValue] = useState(value || '');
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInternalValue(value || '');
   }, [value]);
 

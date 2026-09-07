@@ -5,12 +5,7 @@ import { twMerge } from 'tailwind-merge';
 interface BadgeProps {
   children: React.ReactNode;
   variant?:
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'info'
-    | 'default'
-    | 'processing';
+    'success' | 'warning' | 'danger' | 'info' | 'default' | 'processing';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
   pulse?: boolean;

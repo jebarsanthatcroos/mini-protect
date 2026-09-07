@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/immutability */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
@@ -141,7 +140,8 @@ export default function DoctorDashboard() {
       const fetchJson = async (res: Response) => {
         if (!res.ok) return null;
         const contentType = res.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) return null;
+        if (!contentType || !contentType.includes('application/json'))
+          return null;
         return res.json();
       };
 
@@ -162,7 +162,9 @@ export default function DoctorDashboard() {
       const appointmentsData = await fetchJson(appointmentsRes);
       if (appointmentsData?.success) {
         setAppointments(
-          (appointmentsData.data?.appointments || []).filter((app: any) => app.patient)
+          (appointmentsData.data?.appointments || []).filter(
+            (app: any) => app.patient
+          )
         );
       }
 
@@ -170,7 +172,6 @@ export default function DoctorDashboard() {
       if (appointmentStatsData?.success) {
         setAppointmentStats(appointmentStatsData.data);
       }
-
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       setError('Failed to load dashboard data.');

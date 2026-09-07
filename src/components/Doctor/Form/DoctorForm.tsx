@@ -92,11 +92,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
 
   const handleArrayFieldChange = (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications',
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications',
     index: number,
     value: string
   ) => {
@@ -108,11 +104,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
 
   const handleAddArrayField = (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications'
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications'
   ) => {
     const currentArray = formData.profile[field] || [];
     handleProfileChange(field, [...currentArray, '']);
@@ -120,11 +112,7 @@ const DoctorForm: React.FC<DoctorFormProps> = ({
 
   const handleRemoveArrayField = (
     field:
-      | 'qualifications'
-      | 'languages'
-      | 'services'
-      | 'awards'
-      | 'publications',
+      'qualifications' | 'languages' | 'services' | 'awards' | 'publications',
     index: number
   ) => {
     const currentArray = formData.profile[field] || [];

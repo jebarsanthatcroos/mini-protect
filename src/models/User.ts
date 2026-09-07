@@ -1,10 +1,10 @@
 import { Schema, model, models, Document, Types, Model } from 'mongoose';
 
 export interface IUser {
-  _id: Types.ObjectId; 
+  _id: Types.ObjectId;
   name: string;
   email: string;
-  nic?: string; 
+  nic?: string;
   password?: string;
   role: UserRole;
   image?: string;
@@ -252,8 +252,8 @@ const UserSchema = new Schema<IUserDocument, IUserModel>(
       security: {
         twoFactorAuth: { type: Boolean, default: false },
         loginAlerts: { type: Boolean, default: true },
-        sessionTimeout: { type: Number, default: 60 }, 
-        passwordExpiry: { type: Number, default: 90 }, 
+        sessionTimeout: { type: Number, default: 60 },
+        passwordExpiry: { type: Number, default: 90 },
       },
     },
   },

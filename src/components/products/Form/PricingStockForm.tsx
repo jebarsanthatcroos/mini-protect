@@ -24,7 +24,7 @@ export default function PricingStockForm({
   useEffect(() => {
     if (sellingPrice > 0 && costPrice > 0) {
       const margin = ((sellingPrice - costPrice) / costPrice) * 100;
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setProfitMargin(margin);
     } else {
       setProfitMargin(0);

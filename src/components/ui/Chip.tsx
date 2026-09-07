@@ -4,12 +4,7 @@ import { twMerge } from 'tailwind-merge';
 interface ChipProps {
   children: React.ReactNode;
   color?:
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | 'default'
-    | 'primary'
-    | 'secondary';
+    'success' | 'warning' | 'danger' | 'default' | 'primary' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
   variant?: 'solid' | 'outline' | 'flat';
   className?: string;

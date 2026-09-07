@@ -71,7 +71,7 @@ export default function SignUpClient() {
 
   useEffect(() => {
     if (message) setSuccess(message);
-    // eslint-disable-next-line react-hooks/immutability
+
     if (oauthError) setError(getOAuthErrorMessage(oauthError));
   }, [message, oauthError]);
 

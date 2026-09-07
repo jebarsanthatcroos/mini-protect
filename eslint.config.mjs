@@ -43,6 +43,8 @@ const eslintConfig = [
 
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      'react-hooks/immutability': 'off',
+      'react-hooks/set-state-in-effect': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

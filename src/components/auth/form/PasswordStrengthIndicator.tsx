@@ -22,7 +22,6 @@ export default function PasswordStrengthIndicator({
 
   useEffect(() => {
     if (password) {
-      // eslint-disable-next-line react-hooks/immutability
       checkPasswordStrength(password);
     }
   }, [password]);

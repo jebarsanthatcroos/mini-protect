@@ -8,21 +8,10 @@ export interface ButtonProps extends Omit<
 > {
   children: React.ReactNode;
   color?:
-    | 'primary'
-    | 'secondary'
-    | 'danger'
-    | 'success'
-    | 'warning'
-    | 'default';
+    'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'default';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   variant?:
-    | 'solid'
-    | 'outline'
-    | 'ghost'
-    | 'light'
-    | 'link'
-    | 'text'
-    | 'gradient';
+    'solid' | 'outline' | 'ghost' | 'light' | 'link' | 'text' | 'gradient';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   loading?: boolean;

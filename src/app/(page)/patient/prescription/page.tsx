@@ -58,11 +58,7 @@ interface Delivery {
   pharmaciesID: string | { _id: string; name: string };
   address: DeliveryAddress;
   status:
-    | 'PENDING'
-    | 'PROCESSING'
-    | 'OUT_FOR_DELIVERY'
-    | 'DELIVERED'
-    | 'CANCELLED';
+    'PENDING' | 'PROCESSING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED';
   deliveryFee: number;
   trackingNumber?: string;
   notes?: string;

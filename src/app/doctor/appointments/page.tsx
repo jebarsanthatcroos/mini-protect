@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/purity */
-/* eslint-disable react-hooks/immutability */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
@@ -188,7 +188,6 @@ export default function DoctorAppointmentsPage() {
       return;
     }
 
-     
     fetchAppointments();
   }, [
     session,

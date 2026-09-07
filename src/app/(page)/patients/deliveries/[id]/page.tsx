@@ -33,11 +33,7 @@ import {
 interface Delivery {
   _id: string;
   status:
-    | 'PENDING'
-    | 'PROCESSING'
-    | 'OUT_FOR_DELIVERY'
-    | 'DELIVERED'
-    | 'CANCELLED';
+    'PENDING' | 'PROCESSING' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED';
   address: {
     line1: string;
     line2?: string;

@@ -167,8 +167,4 @@ export interface StatusConfig {
 }
 
 export type StatusType =
-  | 'SCHEDULED'
-  | 'CONFIRMED'
-  | 'COMPLETED'
-  | 'CANCELLED'
-  | 'NO_SHOW';
+  'SCHEDULED' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';

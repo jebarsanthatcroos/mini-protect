@@ -22,11 +22,13 @@ This project uses the App Router and includes a modern stack for building a full
 ## Getting Started
 
 1. Install dependencies:
+
    ```bash
    npm install
    ```
 
 2. Start the development server:
+
    ```bash
    npm run dev
    ```
@@ -72,5 +74,3 @@ Next.js server rather than as a static HTML export.
 - Prefer the App Router patterns that come with Next.js.
 - Keep TypeScript types explicit when working with data models.
 - Run linting before finishing work on the project.
-
-

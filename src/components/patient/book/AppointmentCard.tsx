@@ -1,9 +1,4 @@
-import {
-  FiCalendar,
-  FiUser,
-  FiMapPin,
-  FiFileText,
-} from 'react-icons/fi';
+import { FiCalendar, FiUser, FiMapPin, FiFileText } from 'react-icons/fi';
 import { Appointment } from '@/types/appointment';
 import { STATUS_COLORS } from '@/constants/appointments';
 import { formatDate, formatTime } from '@/utils/formatUtils';

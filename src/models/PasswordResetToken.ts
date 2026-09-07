@@ -1,4 +1,3 @@
-
 import mongoose, { Model, Schema, Document } from 'mongoose';
 
 export interface IPasswordResetToken extends Document {
@@ -9,10 +8,12 @@ export interface IPasswordResetToken extends Document {
   createdAt: Date;
 }
 
+export type IPasswordResetTokenModel = Model<IPasswordResetToken>;
 
-export type IPasswordResetTokenModel = Model<IPasswordResetToken>
-
-const passwordResetTokenSchema = new Schema<IPasswordResetToken, IPasswordResetTokenModel>(
+const passwordResetTokenSchema = new Schema<
+  IPasswordResetToken,
+  IPasswordResetTokenModel
+>(
   {
     email: {
       type: String,
@@ -60,7 +61,7 @@ passwordResetTokenSchema.index({ email: 1, used: 1 });
 passwordResetTokenSchema.index({ token: 1, used: 1 });
 
 // Pre-save middleware to ensure expiresAt is set
-passwordResetTokenSchema.pre('save', function(next) {
+passwordResetTokenSchema.pre('save', function (next) {
   if (!this.expiresAt) {
     // Set expiration to 1 hour from now if not set
     this.expiresAt = new Date(Date.now() + 60 * 60 * 1000);
@@ -69,12 +70,12 @@ passwordResetTokenSchema.pre('save', function(next) {
 });
 
 // Static method to check if token is expired
-passwordResetTokenSchema.methods.isExpired = function(): boolean {
+passwordResetTokenSchema.methods.isExpired = function (): boolean {
   return new Date() > this.expiresAt || this.used;
 };
 
 // Static method to find valid token
-passwordResetTokenSchema.statics.findValidToken = async function(
+passwordResetTokenSchema.statics.findValidToken = async function (
   token: string
 ): Promise<IPasswordResetToken | null> {
   return this.findOne({
@@ -85,7 +86,7 @@ passwordResetTokenSchema.statics.findValidToken = async function(
 };
 
 // Delete expired tokens periodically (optional)
-passwordResetTokenSchema.statics.cleanupExpired = async function() {
+passwordResetTokenSchema.statics.cleanupExpired = async function () {
   const result = await this.deleteMany({
     expiresAt: { $lt: new Date() },
   });
@@ -94,8 +95,7 @@ passwordResetTokenSchema.statics.cleanupExpired = async function() {
 
 // Export the model with type safety
 const PasswordResetToken = mongoose.models.PasswordResetToken as
-  | IPasswordResetTokenModel
-  | undefined;
+  IPasswordResetTokenModel | undefined;
 
 export default (PasswordResetToken ||
   mongoose.model<IPasswordResetToken, IPasswordResetTokenModel>(

@@ -389,7 +389,10 @@ const ReceptionistSchema = new Schema<
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: function (doc: any, ret: { [x: string]: any; _id: any; __v: any; }) {
+      transform: function (
+        doc: any,
+        ret: { [x: string]: any; _id: any; __v: any }
+      ) {
         const { _id, __v, ...rest } = ret;
         return {
           id: _id.toString(),
@@ -571,7 +574,7 @@ ReceptionistSchema.statics.findAvailableReceptionists = async function (
     employmentStatus: 'ACTIVE',
   }).populate('user', 'name email phone image');
 
-  return receptionists.filter((r: { isAvailable: any; }) => r.isAvailable);
+  return receptionists.filter((r: { isAvailable: any }) => r.isAvailable);
 };
 
 ReceptionistSchema.statics.findByShift = function (
@@ -621,10 +624,18 @@ ReceptionistSchema.statics.calculateDepartmentMetrics = async function (
   });
 
   const totalReceptionists = receptionists.length;
-  const availableCount = receptionists.filter((r: { isAvailable: any; }) => r.isAvailable).length;
-  const totalSatisfaction = receptionists.reduce((sum: any, r: { performanceMetrics: { patientSatisfactionScore: any; }; }) => {
-    return sum + (r.performanceMetrics?.patientSatisfactionScore || 0);
-  }, 0);
+  const availableCount = receptionists.filter(
+    (r: { isAvailable: any }) => r.isAvailable
+  ).length;
+  const totalSatisfaction = receptionists.reduce(
+    (
+      sum: any,
+      r: { performanceMetrics: { patientSatisfactionScore: any } }
+    ) => {
+      return sum + (r.performanceMetrics?.patientSatisfactionScore || 0);
+    },
+    0
+  );
 
   const averageSatisfaction =
     totalReceptionists > 0 ? totalSatisfaction / totalReceptionists : 0;
@@ -645,63 +656,69 @@ ReceptionistSchema.index({ 'performanceMetrics.patientSatisfactionScore': -1 });
 ReceptionistSchema.index({ department: 1, employmentStatus: 1 });
 ReceptionistSchema.index({ shift: 1, employmentStatus: 1 });
 
-ReceptionistSchema.pre('save', function (next: (arg0: Error | undefined) => void) {
-  if (this.employmentStatus === 'TERMINATED' && !this.terminationDate) {
-    this.terminationDate = new Date();
-  }
-
-  if (this.currentAppointmentsCount && this.maxAppointmentsPerDay) {
-    if (this.currentAppointmentsCount > this.maxAppointmentsPerDay) {
-      this.currentAppointmentsCount = this.maxAppointmentsPerDay;
+ReceptionistSchema.pre(
+  'save',
+  function (next: (arg0: Error | undefined) => void) {
+    if (this.employmentStatus === 'TERMINATED' && !this.terminationDate) {
+      this.terminationDate = new Date();
     }
-  }
-  this.updateTrainingStatus();
 
-  const days = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ];
-
-  for (const day of days) {
-    const schedule = this.workSchedule[day as keyof typeof this.workSchedule];
-    if (schedule.active) {
-      const [startHour, startMinute] = schedule.start.split(':').map(Number);
-      const [endHour, endMinute] = schedule.end.split(':').map(Number);
-
-      const startTime = startHour * 60 + startMinute;
-      const endTime = endHour * 60 + endMinute;
-
-      if (endTime <= startTime) {
-        return next(new Error(`${day} end time must be after start time`));
+    if (this.currentAppointmentsCount && this.maxAppointmentsPerDay) {
+      if (this.currentAppointmentsCount > this.maxAppointmentsPerDay) {
+        this.currentAppointmentsCount = this.maxAppointmentsPerDay;
       }
     }
-  }
+    this.updateTrainingStatus();
 
-  next();
-});
+    const days = [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ];
 
-ReceptionistSchema.post('save', async function (doc: { user: any; department: any; }) {
-  try {
-    const User = models.User;
-    if (User && doc.user) {
-      await User.findByIdAndUpdate(
-        doc.user,
-        {
-          role: 'RECEPTIONIST',
-          department: doc.department,
-        },
-        { runValidators: false }
-      );
+    for (const day of days) {
+      const schedule = this.workSchedule[day as keyof typeof this.workSchedule];
+      if (schedule.active) {
+        const [startHour, startMinute] = schedule.start.split(':').map(Number);
+        const [endHour, endMinute] = schedule.end.split(':').map(Number);
+
+        const startTime = startHour * 60 + startMinute;
+        const endTime = endHour * 60 + endMinute;
+
+        if (endTime <= startTime) {
+          return next(new Error(`${day} end time must be after start time`));
+        }
+      }
     }
-  } catch (error) {
-    console.error('Error updating user role:', error);
+
+    next();
   }
-});
+);
+
+ReceptionistSchema.post(
+  'save',
+  async function (doc: { user: any; department: any }) {
+    try {
+      const User = models.User;
+      if (User && doc.user) {
+        await User.findByIdAndUpdate(
+          doc.user,
+          {
+            role: 'RECEPTIONIST',
+            department: doc.department,
+          },
+          { runValidators: false }
+        );
+      }
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
+  }
+);
 
 ReceptionistSchema.pre(
   'deleteOne',
