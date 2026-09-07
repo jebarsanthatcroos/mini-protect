@@ -16,7 +16,7 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: ${{ vars.NODE_ENV }}
+      NODE_ENV: test
       NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
       NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
