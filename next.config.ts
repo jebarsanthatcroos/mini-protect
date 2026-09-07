@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
 
   // The current worktree contains incomplete type-only modules in dashboard features.
   // Keep production bundling available while those domain types are restored.

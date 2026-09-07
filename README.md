@@ -44,6 +44,37 @@ npm run start
 npm run lint
 ```
 
+## Docker and Nginx
+
+The production container setup runs two Next.js instances behind an Nginx reverse
+proxy. Nginx terminates TLS, load-balances requests with `least_conn`, rate-limits
+API traffic, and caches immutable Next.js static assets. The containers have
+resource limits suitable for a small cloud VM and can be adapted to Kubernetes
+by using the same application image behind an Ingress or Gateway.
+
+1. Create the production environment file:
+
+```bash
+cp .env.production.example .env.production
+```
+
+2. Place a trusted certificate and key at:
+
+```text
+nginx/certs/fullchain.pem
+nginx/certs/privkey.pem
+```
+
+3. Start the stack:
+
+```bash
+docker compose up -d --build
+```
+
+Port 80 redirects to HTTPS and port 443 serves the application. Keep
+`.env.production` and `nginx/certs/` out of source control; renew certificates
+with your certificate provider or ACME automation before they expire.
+
 ## Project Structure
 
 ```text
