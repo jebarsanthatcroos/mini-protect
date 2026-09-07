@@ -13,28 +13,39 @@ const Footer = `
   </div>
 `;
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD || process.env.SMTP_PASS,
-  },
-});
+const smtpUser = process.env.SMTP_USER;
+const smtpPassword = process.env.SMTP_PASSWORD || process.env.SMTP_PASS;
+const hasSmtpCredentials = Boolean(smtpUser && smtpPassword);
 
-transporter.verify(function (error, _success) {
-  if (error) {
-    console.error('SMTP Connection Error:', error);
-  } else {
-    console.log('SMTP Server is ready to take our messages');
-    console.log('SMTP Configuration:', {
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD || process.env.SMTP_PASS,
-      from: process.env.SMTP_FROM,
+const transporter = hasSmtpCredentials
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: smtpUser,
+        pass: smtpPassword,
+      },
+    })
+  : nodemailer.createTransport({
+      streamTransport: true,
+      newline: 'unix',
+      buffer: true,
     });
-  }
-});
+
+if (hasSmtpCredentials) {
+  transporter.verify(function (error, _success) {
+    if (error) {
+      console.error('SMTP Connection Error:', error);
+    } else {
+      console.log('SMTP Server is ready to take our messages');
+      console.log('SMTP Configuration:', {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        user: smtpUser,
+        from: process.env.SMTP_FROM,
+      });
+    }
+  });
+}
 
 // Define proper types for the complex objects
 interface Address {
