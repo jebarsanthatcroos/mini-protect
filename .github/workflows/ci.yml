@@ -21,7 +21,7 @@ jobs:
       NODE_ENV: test
       NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
       NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI || 'mongodb://127.0.0.1:27017/ci-build' }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
