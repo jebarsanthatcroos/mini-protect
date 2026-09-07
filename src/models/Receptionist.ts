@@ -695,7 +695,7 @@ ReceptionistSchema.pre(
       }
     }
 
-    next();
+    next(undefined);
   }
 );
 
@@ -725,7 +725,7 @@ ReceptionistSchema.pre(
   { document: true, query: false },
   async function (next: (arg0: undefined) => void) {
     try {
-      next();
+      next(undefined);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       next(error);

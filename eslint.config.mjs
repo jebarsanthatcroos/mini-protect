@@ -45,6 +45,7 @@ const eslintConfig = [
       'react/prop-types': 'off',
       'react-hooks/immutability': 'off',
       'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/preserve-manual-memoization': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
